@@ -19,7 +19,6 @@ export interface WebTextMarkerOptions {
     btnArrowID?: string;
 }
 export interface SelectedMarkers {
-    parentClassName: IMarker[];
     [key: string]: any;
 }
 export interface EventName {

@@ -23,7 +23,6 @@ export interface WebTextMarkerOptions {
 }
 
 export interface SelectedMarkers {
-  parentClassName: IMarker[];
   [key: string]: any;
 }
 

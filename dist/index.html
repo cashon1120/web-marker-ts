@@ -6,8 +6,16 @@
   <title>Document</title>
 </head>
 <body>
+  <h1>文章标题</h1>
   <p>123123123123123123123123123123123123</p>
   <p>123123123123123123123123123123123123</p>
-  <script src="../dist/bundle.js"></script>
+  <button id="clear">清除所有</button>
+  <script src="./bundle.js"></script>
+  <div id="debug"></div>
+  <script>
+    document.getElementById('clear').addEventListener('click', () => {
+      localStorage.removeItem('markers')
+    })
+  </script>
 </body>
 </html>

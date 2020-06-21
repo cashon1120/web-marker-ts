@@ -83,6 +83,8 @@ class WebTextMarker {
     // 临时标记节点, 主要是 PC 端用
     this.tempMarkDom = null
 
+    this.selectedMarkers = {}
+
     this.hasTempDom = false
 
     // 要删除的标记 id
@@ -235,8 +237,6 @@ class WebTextMarker {
     setDomDisplay(document.getElementById(this.options.btnMarkID), 'block')
     setDomDisplay(document.getElementById(this.options.btnDeleteID), 'none')
 
-    console.log(this.selectedText.getRangeAt(0))
-
     const {
       anchorOffset,
       focusOffset
@@ -377,6 +377,7 @@ class WebTextMarker {
 
   // 标记选中文本
   mark() {
+    if(!this.tempMarkerInfo) return
     const {
       parentClassName
     } = this.tempMarkerInfo
@@ -389,13 +390,14 @@ class WebTextMarker {
       const span = setTextSelected(this.MARKED_CLASSNAME, text, this.tempMarkerInfo.id)
       rang.surroundContents(span);
     }
-
     if (!this.selectedMarkers[parentClassName]) {
       this.selectedMarkers[parentClassName] = [this.tempMarkerInfo]
     } else {
       this.selectedMarkers[parentClassName].push(this.tempMarkerInfo)
     }
     this.currentId = this.tempMarkerInfo.id
+    
+    this.tempMarkerInfo = null
     this.resetMarker(parentClassName)
     this.selectedText.removeAllRanges()
     this.hide()
