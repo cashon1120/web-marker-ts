@@ -114,6 +114,7 @@ window.addEventListener('load', () => {
     if (webMarker.userAgent.isAndroid && window.jsObject) {
       window.jsObject.discussion(id)
       return
+      
     }
 
     if (webMarker.userAgent.isiOS) {
