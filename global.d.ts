@@ -6,6 +6,7 @@ declare global {
     webMarker: any,
     saveMarker: any,
     handleMarkSuccess: () => void,
+    initView: (json: string) => void,
     webkit: any
   }
 }

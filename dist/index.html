@@ -11,7 +11,9 @@
   <p>123123123123123123123123123123123123</p>
   <button id="clear">清除所有</button>
   <script src="./bundle.js"></script>
-  <div id="debug"></div>
+  <div id="debug" style="margin-top: 30px; background-color: #000; color: #fff; padding: 5px 10px; font-size: 12px">
+    调试信息:
+  </div>
   <script>
     document.getElementById('clear').addEventListener('click', () => {
       localStorage.removeItem('markers')
