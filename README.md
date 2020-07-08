@@ -14,7 +14,7 @@ serve -s dist
 启动一个本地服务, 可能没有 serve 命令, 别的方法也是可以, 能启动一个类似 localhost:5000 的运行环境就行
 
 ## src文件夹结构说明
-├─ src
+├─ src  
    ├── app.ts: 入口文件, 初始化相关信息  
    ├── copy.js: 复制插件  
    ├── createBtnDom.ts: 创建弹框DOM  
