@@ -1,1 +1,1 @@
-export {};
+import './copy.js';

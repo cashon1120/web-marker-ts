@@ -8,5 +8,6 @@ declare global {
     handleMarkSuccess: () => void,
     initView: (json: string) => void,
     webkit: any
+    copyToClipboard: any
   }
 }

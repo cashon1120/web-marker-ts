@@ -8,6 +8,9 @@ const createBtnDom = () => {
         <div id="webMarker_btn_mark">高亮</div>
         <div id="webMarker_btn_notes">笔记</div>
         <div id="webMarker_btn_discuss">讨论</div>
+        <div id="webMarker_btn_baike">百科</div>
+        <div id="webMarker_btn_dictionary">字典</div>
+        <div id="webMarker_btn_copy">拷贝</div>
         <div id="webMarker_btn_delete">移除</div>
       </div>
     `

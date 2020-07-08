@@ -38,3 +38,12 @@ export interface UserAgaent {
   isPC: boolean;
   eventName: EventName;
 }
+
+export interface IWebMarker {
+  getSelectedText: () => string
+  getCurrentId: () => string
+  mark: () => void
+  getAllMarkes: () => SelectedMarkers
+  del: () => void
+  userAgent: UserAgaent
+}
