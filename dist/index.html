@@ -1,21 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>文章标题</h1>
-  <p>张三李四，汉语成语，读音为zhāng sān lǐ sì，意思是假设的名字，泛指某人或某些人。出自宋·王安石</p>
-  <p>123123123123123123123123123123123123</p>
-  <button id="clear">清除所有</button>
-  <script src="./bundle.js"></script>
-  <script>
-    document.getElementById('clear').addEventListener('click', () => {
-      localStorage.removeItem('markers')
-      
-    })
-  </script>
-</body>
+  <title>demo</title>
+  <link rel="stylesheet" type="text/css" href="./web-marker.css" />
+  </head>
+
+  <body>
+    <div style="margin-top: 100px;">
+      今夕何夕兮，搴舟中流。<br>
+      今日何日兮，得与王子同舟。<br>
+      蒙羞被好兮，不訾诟耻。<br>
+      心几烦而不绝兮，得知王子。<br>
+      山有木兮木有枝，心悦君兮君不知。
+    </div>
+
+    <!--按钮-->
+    <div id="webMarkerBtnBox" style="display: none;">
+      <div id="webMarker_btn_mark">高亮</div>
+      <div id="webMarker_btn_baike">百科</div>
+      <div id="webMarker_btn_delete">移除</div>
+    </div>
+    <script src="./web_marker.js"></script>
+
+    <script>
+      const getElementById = id => document.getElementById(id)
+      window.addEventListener('load', () => {
+        // 默认标记数据
+        let defaultMarkers = JSON.parse(localStorage.getItem('markers'))
+        // 创建实例, npm 安装使用的话 直接 new WebMarker({...})
+        const webMarker = new window.WebMarker({
+          defaultMarkers: defaultMarkers, // 默认标记数据 (选填), 数据格式为 getAllMarkes 返回结果
+          selectedClassName: '_temp_marker', // 选中后样式名 (必填)
+          markedClassName: '_web_marker',  // 标记样式名 (必填)
+          focusMarkedClassName: '_focus_web_marker', // 选中已标记样式名 (必填)
+          btnWrapperID: 'webMarkerBtnBox', // 弹框节点 ID (必填)
+          btnMarkID: 'webMarker_btn_mark', // 标记(高亮) ID (必填)
+          btnDeleteID: 'webMarker_btn_delete', // 删除标记 ID (必填)
+          disabledEle: ['BUTTON', 'H1', 'H2', 'IMG'] // 禁用此功能标签
+        })
+
+        // 返回文本内容, 可用于百科,复制等功能使用
+        const getText = () => {
+          let str = webMarker.getSelectedText()
+          if (!str) {
+            const id = webMarker.getCurrentId()
+            str = document.getElementById(id.toString()).innerHTML
+          }
+          return str
+        }
+
+        // 标记
+        const handleMark = () => {
+          webMarker.mark()
+          handleSaveAllMarker()
+        }
+
+        // 保存所有标记
+        const handleSaveAllMarker = () => {
+          console.log(webMarker.getAllMarkes())
+          const markersJson = JSON.stringify(webMarker.getAllMarkes())
+          // 可在这里上传结果
+          localStorage.setItem('markers', markersJson)
+        }
+
+        // 删除当前标记
+        const handleDelete = () => {
+          webMarker.del()
+          handleSaveAllMarker()
+        }
+
+        // 百科
+        const handleToBaike = () => {
+          window.location.href = `https://baike.baidu.com/item/${getText()}`
+        }
+
+        // 给各按钮绑定对应事件
+        const btn_mark = getElementById('webMarker_btn_mark')
+        const btn_delete = getElementById('webMarker_btn_delete')
+        const btn_baike = getElementById('webMarker_btn_baike')
+        btn_mark.addEventListener('mousedown', handleMark)
+        btn_delete.addEventListener('mousedown', handleDelete)
+        btn_baike.addEventListener('mousedown', handleToBaike)
+      })
+    </script>
+
+
+  </body>
+
 </html>

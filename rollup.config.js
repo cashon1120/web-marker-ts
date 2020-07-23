@@ -4,11 +4,11 @@ import typescript from 'rollup-plugin-typescript2';
 const isPrd = process.env.NODE_ENV === 'production';
 
 export default {
-  input: 'src/app.ts',
+  input: 'src/webMarker.ts',
   output: {
-    file: 'dist/bundle.js',
+    file: 'dist/web_marker.js',
     format: 'umd',
-    name: 'web-marker',
+    name: 'web_marker',
     sourcemap: false
   },
   plugins: [

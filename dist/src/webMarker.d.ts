@@ -1,6 +1,6 @@
-import { WebTextMarkerOptions, SelectedMarkers, UserAgaent, IMarker } from './interface';
+import { WebMarkerOptions, SelectedMarkers, UserAgaent, IMarker, IWebMarker } from './interface';
 /**
- * @class Marker
+ * @class Marker, 单个标记 信息
  * @param id: id, setuuid() 生成, 一个简单的按当前时间生成的字符串, 不需要太专业
  * @param parentClassName: 父节点className, 对应 selectedMarkers 中的 key,
  * @param childIndex: 在父节点中的索引
@@ -16,31 +16,34 @@ declare class Marker implements IMarker {
     constructor(id: string, parentClassName: string, childIndex: number, start: number, end: number);
 }
 /**
- * @class WebTextMarker
+ * @class WebMarker
  * @param options.defaultMarkers: 初始标记数据
- * @param options.markedStyles: 标记文本样式
- * @param options.btnStyles: 操作框样式
- * @param options.focusMarkedStyles: 选中已标记文本样式
- * @param options.onSave: 标记后回调, 必填
+ * @param options.markedClassName: 标记 className
+ * @param options.focusMarkedClassName: 选中已经标记 className
+ * @param options.selectedClassName: 选中后 className
+ * @param options.btnWrapperID: 弹框 ID
+ * @param options.btnArrowID: 弹框下方的箭头 ID
+ * @param options.btnMarkID: 标记按钮 ID, 主要用于隐藏和显示, 删除按钮一样, 其实应该提到外面去处理
+ * @param options.btnDeleteID: 删除按钮 ID
  */
-declare class WebTextMarker {
+declare class WebMarker implements IWebMarker {
     MARKED_CLASSNAME: string;
     TEMP_MARKED_CLASSNAME: string;
     FOUCE_MARKED_CLASSNAME: string;
-    options: WebTextMarkerOptions;
+    options: WebMarkerOptions;
+    userAgent: UserAgaent;
+    arrow: HTMLElement;
     btnWrapper: HTMLElement | null;
     selectedMarkers: SelectedMarkers;
-    selectedText: any;
-    tempMarkDom: HTMLElement | null;
-    hasTempDom: boolean;
     tempMarkerInfo: Marker;
+    tempMarkDom: HTMLElement | null;
+    selectedText: any;
+    hasTempDom: boolean;
     currentId: string | null;
     isMarked: boolean;
     pageY: number;
     touch: any;
-    userAgent: UserAgaent;
-    arrow: HTMLElement;
-    constructor(options: WebTextMarkerOptions);
+    constructor(options: WebMarkerOptions);
     private init;
     private handleSelectionChange;
     private handleMouseDown;
@@ -49,6 +52,10 @@ declare class WebTextMarker {
     private show;
     private resetMarker;
     private setDefaultMarkers;
+    /**
+     * 划重点, 这里是判断当前选中的内容节点数量, 本来超过一个节点就不处理, 如果要实现选中多个;
+     * 那就在这里作文章,
+     */
     private checkSelectionCount;
     private checkNoSelectionText;
     private removeFocusStyle;
@@ -58,4 +65,4 @@ declare class WebTextMarker {
     getAllMarkes(): SelectedMarkers;
     getSelectedText(): any;
 }
-export default WebTextMarker;
+export default WebMarker;

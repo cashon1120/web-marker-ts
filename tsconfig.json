@@ -1,17 +1,17 @@
 {
   "version": "1.8.0",
   "compilerOptions": {
-      "lib": [ "es6", "dom"],
-      "target": "es5",
-      "module": "ES2015",
-      "moduleResolution": "node",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "allowSyntheticDefaultImports": true,
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "declaration": true,
-      "allowJs": true
+    "lib": [ "es6", "dom"],
+    "target": "es5",
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "declaration": true,
+    "allowJs": true
   },
   "exclude": [ "dist", "example", "node_modules" ]
 }

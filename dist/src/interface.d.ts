@@ -8,7 +8,7 @@ export interface IMarker {
 export interface Styles {
     [key: string]: any;
 }
-export interface WebTextMarkerOptions {
+export interface WebMarkerOptions {
     defaultMarkers: SelectedMarkers;
     markedClassName: string;
     selectedClassName: string;
@@ -17,6 +17,7 @@ export interface WebTextMarkerOptions {
     btnDeleteID?: string;
     btnWrapperID?: string;
     btnArrowID?: string;
+    disabledEle?: string[];
 }
 export interface SelectedMarkers {
     [key: string]: any;

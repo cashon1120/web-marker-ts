@@ -1,8 +1,8 @@
 {
-  "name": "web-notes",
-  "version": "1.0.0",
-  "description": "'make  notes in webpage'",
-  "main": "index.ts",
+  "name": "web-marker",
+  "version": "1.0.2",
+  "description": "'make marker in webpage'",
+  "main": "dist/web_marker.js",
   "scripts": {
     "watch": "rollup -c -w",
     "build": "rollup -c --environment NODE_ENV:production"
@@ -20,5 +20,11 @@
   },
   "dependencies": {
     "@types/node": "^14.0.13"
-  }
+  },
+  "keywords": [
+    "web-marker",
+    "webmarker",
+    "网页高亮",
+    "网页笔记"
+  ]
 }
