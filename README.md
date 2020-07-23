@@ -12,11 +12,10 @@ dist/web-marker.css
 
 ### 演示地址
 [点我查看](http://180.76.54.31:83 "web-marker demo")
-(抱歉, 没有域名)
 
 
 ### 安装
-npm install -D web-marker
+npm i web-marker
 
 ### 使用
 ```javascript
