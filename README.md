@@ -4,8 +4,6 @@
 主要用于在静态网页上做标记(高亮), 当然前提是网页上的内容不会发生变化, 一旦发生变化之前做的标记将会错乱;
 暂不支持夸多节点标记内容;
 
-![demo image][use_img]
-
 可根据需求添加想要的操作按钮,具体使用方法参考:
 dist/index.html
 
@@ -13,7 +11,7 @@ dist/index.html
 dist/web-marker.css
 
 ### 演示地址
-[点我查看]](http://180.76.54.31:83 "web-marker demo")
+[点我查看](http://180.76.54.31:83 "web-marker demo")
 (抱歉, 没有域名)
 
 
