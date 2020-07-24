@@ -11,6 +11,7 @@
 
 ### 效果演示
 ![demo image](http://180.76.54.31/images/code.png@w=300)
+![avatar](http://180.76.54.31/images/code.png)
 
 demo地址: [点我查看](http://180.76.54.31:83 "web-marker demo")
 
