@@ -1,7 +1,7 @@
 {
   "name": "web-marker",
-  "version": "1.0.5",
-  "description": "'make marker in webpage'",
+  "version": "1.0.7",
+  "description": "a tool for add marker or highlight in webpage",
   "main": "dist/web_marker.js",
   "scripts": {
     "watch": "rollup -c -w",
