@@ -10,7 +10,7 @@ import {
 import {WebMarkerOptions, SelectedMarkers, UserAgaent, IMarker, IWebMarker} from './interface'
 
 // 选中下面标签时不处理, 可自由添加
-const disabledElement = ['BUTTON', 'H1', 'H2', 'IMG']
+const disabledElement = ['BUTTON', 'IMG']
 
 /**
  * @class Marker, 单个标记 信息
@@ -57,6 +57,8 @@ class WebMarker implements IWebMarker {
   userAgent : UserAgaent;
   arrow : HTMLElement;
   btnWrapper : HTMLElement | null;
+  btnMark: HTMLElement | null;
+  btnDelete: HTMLElement | null;
   selectedMarkers : SelectedMarkers;
   tempMarkerInfo : Marker;
   tempMarkDom : HTMLElement | null;
@@ -74,11 +76,11 @@ class WebMarker implements IWebMarker {
     }
 
     if (!options.btnMarkID) {
-      throw new Error("请传入高亮节点ID: btnMarkID");
+      throw new Error("请传入高亮按钮节点ID: btnMarkID");
     }
 
     if (!options.btnDeleteID) {
-      throw new Error("请传入删除节点ID: btnDeleteID");
+      throw new Error("请传入删除按钮节点ID: btnDeleteID");
     }
 
     this.MARKED_CLASSNAME = options.markedClassName
@@ -122,7 +124,8 @@ class WebMarker implements IWebMarker {
     if(disabledDom && Array.isArray(disabledDom)){
       disabledElement.concat(disabledDom)
     }
-
+    this.btnMark = document.getElementById(this.options.btnMarkID)
+    this.btnDelete = document.getElementById(this.options.btnDeleteID)
     // 获取浏览器环境
     this.userAgent = getUserAgent()
 
@@ -141,7 +144,6 @@ class WebMarker implements IWebMarker {
 
     // 移动端在选择文本的时候无法监听移动事件, 所以分开处理, 移动端直接在 selectionchange 事件中控制流程 PC
     // 端的优势在于选中文本后先添加一个临时节点, 方便定位, 鼠标抬起后再执行后续, 移动端暂不能做到
-
     if (this.userAgent.isPC) {
       document.addEventListener(this.userAgent.eventName.mouseup, this.handleMouseUp.bind(this))
     }
@@ -152,60 +154,47 @@ class WebMarker implements IWebMarker {
     if (window.getSelection()) {
       this.selectedText = window.getSelection()
       // 没有选中文本时隐藏弹框
-      if (this.isMarked) {
+      if (this.isMarked || this.userAgent.isPC) {
         return
       }
-
-      if (this.userAgent.isPC) {
-        return
-      }
-
       /*** 下面是移动端的处理 ***/
-      const {commonAncestorContainer} = this
-        .selectedText
-        .getRangeAt(0)
+      const {commonAncestorContainer} = this.selectedText.getRangeAt(0)
       if (this.checkNoSelectionText() && !this.isMarked || !this.checkSelectionCount() || disabledElement.includes(commonAncestorContainer.parentNode.nodeName)) {
         this.hide()
         return
       }
-
       // 这里模拟走 PC 端的 mouseup 事件
-   
-
       if (this.selectedText.toString().length > 0) {
         this.handleMouseUp()
       }
-
     } else {
-      throw new Error('不支持 window.getSelection 属性')
+      throw new Error('抱歉, 不支持 window.getSelection 方法')
     }
   }
 
   // 鼠标按下
   private handleMouseDown(e : MouseEvent | TouchEvent | any) {
+    const {pageY, touches, target} = e
     if (this.userAgent.isPC) {
-      this.pageY = e.pageY
-
+      this.pageY = pageY
     } else {
-      this.touch = e.touches[0]
+      this.touch = touches[0]
     }
-    const tempDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0]as HTMLElement
+    const tempDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0] as HTMLElement
     if (tempDom) {
       mergeTextNode(tempDom)
       this.hide()
     }
-    const target = e.target
-
     // 当选中的文本已经标记时的处理, 隐藏 "标记" 按钮, 显示 "删除" 按钮
     if (target.className.indexOf(this.MARKED_CLASSNAME) > -1) {
       this.removeFocusStyle()
       target.className = `${this.MARKED_CLASSNAME} ${this.FOUCE_MARKED_CLASSNAME}`
-      setDomDisplay(document.getElementById(this.options.btnMarkID), 'none')
-      setDomDisplay(document.getElementById(this.options.btnDeleteID), 'block')
+      setDomDisplay(this.btnMark, 'none')
+      setDomDisplay(this.btnDelete, 'block')
       this.currentId = e.target.id
       this.isMarked = true
       this.tempMarkDom = target
-      // 利用事件循环机制处理延后显示徐弹框
+      // 利用事件循环, 延后显示弹框
       setTimeout(() => {
         this.show()
       }, 0);
@@ -231,36 +220,24 @@ class WebMarker implements IWebMarker {
         }
       }, 0);
 
-      const {commonAncestorContainer} = this
-        .selectedText
-        .getRangeAt(0)
+      const {commonAncestorContainer} = this.selectedText.getRangeAt(0)
       if (disabledElement.includes(commonAncestorContainer.parentNode.nodeName)) {
         return
       }
     }
-    const {commonAncestorContainer} = this
-      .selectedText
-      .getRangeAt(0)
+    const {commonAncestorContainer} = this.selectedText.getRangeAt(0)
     setDomDisplay(document.getElementById(this.options.btnMarkID), 'block')
     setDomDisplay(document.getElementById(this.options.btnDeleteID), 'none')
-
     const {anchorOffset, focusOffset} = this.selectedText
     const startIndex = Math.min(anchorOffset, focusOffset)
     const endIndex = Math.max(anchorOffset, focusOffset)
-    const className = commonAncestorContainer
-      .parentNode
-      .className
-      .split(' ')
+    const className = commonAncestorContainer.parentNode.className.split(' ')
     let parentClassName = className[className.length - 1]
     this.tempMarkerInfo = new Marker(setuuid(), parentClassName, 0, startIndex, endIndex)
     this.hasTempDom = true
     if (this.userAgent.isPC) {
-      const text = this
-        .selectedText
-        .toString()
-      const rang = this
-        .selectedText
-        .getRangeAt(0)
+      const text = this.selectedText.toString()
+      const rang = this.selectedText.getRangeAt(0)
       // 这里可以查看 rang 信息, 要实现选中多个节点可以在这里做文章
       const span = setTextSelected(this.TEMP_MARKED_CLASSNAME, text, this.tempMarkerInfo.id)
       rang.surroundContents(span)
@@ -268,13 +245,13 @@ class WebMarker implements IWebMarker {
     this.show()
   }
 
+  // 隐藏弹框
   private hide() {
     setDomDisplay(this.btnWrapper, 'none')
     this.removeFocusStyle()
     if (this.userAgent.isPC) {
-      const tempDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0]as HTMLElement
-      if (!tempDom || tempDom.className.indexOf(this.MARKED_CLASSNAME) > -1) 
-        return
+      const tempDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0] as HTMLElement
+      if (!tempDom || tempDom.className.indexOf(this.MARKED_CLASSNAME) > -1) return
       mergeTextNode(tempDom)
       this.hasTempDom = false
     } else {
@@ -295,9 +272,8 @@ class WebMarker implements IWebMarker {
     if (this.tempMarkDom) {
       tempDom = this.tempMarkDom
     } else {
-      tempDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0]as HTMLElement
+      tempDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0] as HTMLElement
     }
-
     // 控制弹框显示动画
     if (tempDom) {
       tempDomAttr = tempDom.getBoundingClientRect()
@@ -340,14 +316,12 @@ class WebMarker implements IWebMarker {
       // childIndex 为什么是 i - 1 ? 根据当前已经标记节点索引, 在后面反序列的时候才能找到正确位置 比如当前节点内容为"xxx
       // <标记节点>ooo</标记节点>", i 就是 1, 反序列的时候其实他是处于 0 的位置
       const childIndex = i - 1
-      this
-        .selectedMarkers[domClassName]
-        .forEach((marker : Marker) => {
-          const child = dom.childNodes[i]as HTMLElement
-          if (child.id == marker.id) {
-            newMarkerArr.push(new Marker(marker.id, '', childIndex, preNodeLength, preNodeLength + node.textContent.length))
-          }
-        })
+      this.selectedMarkers[domClassName].forEach((marker : Marker) => {
+        const child = dom.childNodes[i]as HTMLElement
+        if (child.id == marker.id) {
+          newMarkerArr.push(new Marker(marker.id, '', childIndex, preNodeLength, preNodeLength + node.textContent.length))
+        }
+      })
     }
     if (newMarkerArr.length > 0) {
       this.selectedMarkers[domClassName] = newMarkerArr
@@ -359,22 +333,18 @@ class WebMarker implements IWebMarker {
   // 设置默认选中数据
   private setDefaultMarkers() {
     const defaultMarkers = this.selectedMarkers
-    Object
-      .keys(defaultMarkers)
-      .forEach(className => {
-        const dom = document.getElementsByClassName(className)[0]
-        if (!dom) 
-          return
-        defaultMarkers[className].forEach((marker : Marker) => {
-          const currentNode : Text = dom.childNodes[marker.childIndex]as Text
-          currentNode.splitText(marker.start);
-          const nextNode = currentNode.nextSibling as Text;
-          nextNode.splitText(marker.end - marker.start)
-          const markedNode = setTextSelected(this.MARKED_CLASSNAME, nextNode.textContent, marker.id)
-
-          dom.replaceChild(markedNode, nextNode)
-        })
+    Object.keys(defaultMarkers).forEach(className => {
+      const dom = document.getElementsByClassName(className)[0]
+      if (!dom) return
+      defaultMarkers[className].forEach((marker : Marker) => {
+        const currentNode : Text = dom.childNodes[marker.childIndex]as Text
+        currentNode.splitText(marker.start);
+        const nextNode = currentNode.nextSibling as Text;
+        nextNode.splitText(marker.end - marker.start)
+        const markedNode = setTextSelected(this.MARKED_CLASSNAME, nextNode.textContent, marker.id)
+        dom.replaceChild(markedNode, nextNode)
       })
+    })
   }
 
   // 判断当前选中内容所包含的节点数量
@@ -385,21 +355,12 @@ class WebMarker implements IWebMarker {
   private checkSelectionCount() {
     // 判断是否选中了多个， 如果只选中了一个节点 nodeType === 3 还有一种判断方式, getRangeAt(0).endContainer !==
     // getRangeAt(0).startContainer 意味着选中了多个节点
-    return this
-      .selectedText
-      .getRangeAt(0)
-      .endContainer === this
-      .selectedText
-      .getRangeAt(0)
-      .startContainer
+    return this.selectedText.getRangeAt(0).endContainer === this.selectedText.getRangeAt(0).startContainer
   }
 
   // 判断当前是否有选中文本
   private checkNoSelectionText() {
-    return this
-      .selectedText
-      .toString()
-      .length === 0 || !this.selectedText.getRangeAt
+    return this.selectedText.toString().length === 0 || !this.selectedText.getRangeAt
   }
 
   // 移除焦点样式
@@ -412,49 +373,35 @@ class WebMarker implements IWebMarker {
 
   // 标记选中文本
   mark() {
-    if (!this.tempMarkerInfo) 
-      return
+    if (!this.tempMarkerInfo) return
     const {parentClassName} = this.tempMarkerInfo
     if (this.userAgent.isPC) {
       const tempMarkDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0]
       tempMarkDom.className = this.MARKED_CLASSNAME
     } else {
-
-      const text = this
-        .selectedText
-        .toString()
-      const rang = this
-        .selectedText
-        .getRangeAt(0)
+      const text = this.selectedText.toString()
+      const rang = this.selectedText.getRangeAt(0)
       const span = setTextSelected(this.MARKED_CLASSNAME, text, this.tempMarkerInfo.id)
-      rang.surroundContents(span);
+      rang.surroundContents(span)
     }
     if (!this.selectedMarkers[parentClassName]) {
       this.selectedMarkers[parentClassName] = [this.tempMarkerInfo]
     } else {
-      this
-        .selectedMarkers[parentClassName]
-        .push(this.tempMarkerInfo)
+      this.selectedMarkers[parentClassName].push(this.tempMarkerInfo)
     }
     this.currentId = this.tempMarkerInfo.id
     this.tempMarkerInfo = null
     this.resetMarker(parentClassName)
-    this
-      .selectedText
-      .removeAllRanges()
+    this.selectedText.removeAllRanges()
     this.hide()
   }
 
   // 删除当前标记
   del() {
-    if (!this.currentId) 
-      return
+    if (!this.currentId) return
     this.tempMarkDom = null
     const dom = document.getElementById(this.currentId)as any
-    const className = dom
-      .parentNode
-      .className
-      .split(' ')
+    const className = dom.parentNode.className.split(' ')
     const parentClassName = className[className.length - 1]
     mergeTextNode(dom)
     this.resetMarker(parentClassName)
@@ -472,11 +419,9 @@ class WebMarker implements IWebMarker {
 
   // 返回当前选中的文本内容, 用于百科, 字典, 拷贝等操作
   getSelectedText() {
-    return this
-      .selectedText
-      .toString()
+    return this.selectedText.toString()
   }
-
 }
+
 window.WebMarker = WebMarker
 export default WebMarker

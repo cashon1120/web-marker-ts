@@ -33,6 +33,8 @@ declare class WebMarker implements IWebMarker {
     userAgent: UserAgaent;
     arrow: HTMLElement;
     btnWrapper: HTMLElement | null;
+    btnMark: HTMLElement | null;
+    btnDelete: HTMLElement | null;
     selectedMarkers: SelectedMarkers;
     tempMarkerInfo: Marker;
     tempMarkDom: HTMLElement | null;
