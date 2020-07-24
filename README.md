@@ -10,7 +10,9 @@
 * 样式可自定义, 写法参考: dist/web-marker.css;
 
 ### 效果演示
-![demo_image](http://180.76.54.31/images/code.png@w=300)
+
+<img src="http://180.76.54.31/images/code.png" width="300" />
+
 demo地址: [点我查看](http://180.76.54.31:83 "web-marker demo")
 
 ### 安装
