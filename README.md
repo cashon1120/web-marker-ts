@@ -9,8 +9,10 @@
 * 可根据需求添加想要的操作按钮,具体使用方法参考: dist/index.html;
 * 样式可自定义, 写法参考: dist/web-marker.css;
 
-### 演示地址
-[点我查看](http://180.76.54.31:83 "web-marker demo")
+### 效果演示
+![demo image](http://180.76.54.31/images/code.png@w=300)
+
+demo地址: [点我查看](http://180.76.54.31:83 "web-marker demo")
 
 ### 安装
 npm i web-marker
@@ -18,14 +20,14 @@ npm i web-marker
 ### 使用
 ```javascript
 const webMarker = new WebMarker({
-  selectedClassName: '_temp_marker',            // 选中后样式名 (必填)
-  markedClassName: '_web_marker',               // 标记样式名 (必填)
-  focusMarkedClassName: '_focus_web_marker',    // 选中已标记样式名 (必填)
-  btnWrapperID: 'webMarkerBtn_Wrapper',         // 弹框节点 ID (必填)
-  btnMarkID: 'webMarkerBtn_Mark',               // 标记(高亮) ID (必填)
-  btnDeleteID: 'webMarkerBtn_Delete',           // 删除标记 ID (必填)
-  defaultMarkers: {},                           // 默认标记数据 (选填), 数据格式为 getAllMarkes 返回结果
-  disabledDom: ['H1', 'H2']                     // 禁用此功能标签 (选填), 这里用的 nodeName 属性, 注意全部大写
+  selectedClassName: '_temp_marker',          // 选中后样式名 (必填)
+  markedClassName: '_web_marker',             // 标记样式名 (必填)
+  focusMarkedClassName: '_focus_web_marker',  // 选中已标记样式名 (必填)
+  btnWrapperID: 'webMarkerBtn_Wrapper',       // 弹框节点 ID (必填)
+  btnMarkID: 'webMarkerBtn_Mark',             // 标记(高亮) ID (必填)
+  btnDeleteID: 'webMarkerBtn_Delete',         // 删除标记 ID (必填)
+  defaultMarkers: {},                         // 默认标记数据 (选填), 数据格式为 getAllMarkes 返回结果
+  disabledDom: ['H1', 'H2']                   // 禁用此功能标签 (选填), 这里用的 nodeName 属性, 注意大写
 })
 
 // 标记当前选中区域
