@@ -1,11 +1,15 @@
 {
   "name": "web-marker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "'make marker in webpage'",
   "main": "dist/web_marker.js",
   "scripts": {
     "watch": "rollup -c -w",
     "build": "rollup -c --environment NODE_ENV:production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cashon1120/web-marker-ts"
   },
   "author": "",
   "license": "ISC",

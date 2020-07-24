@@ -1,14 +1,12 @@
 # web-marker
 
 ### 介绍
-主要用于在静态网页上做标记(高亮), 当然前提是网页上的内容不会发生变化, 一旦发生变化之前做的标记将会错乱;
-暂不支持夸多节点标记内容;
+* 主要用于在静态网页上做标记(高亮), 当然前提是网页上的内容不会发生变化, 一旦发生变化之前做的标记将会错乱;
+* 暂不支持跨多节点标记内容;
+* 支持移动端, 但因在移动端选中文字后系统会有默认的弹框操作, 所以得让小伙伴在webView里把这个系统功能禁用掉;
 
-可根据需求添加想要的操作按钮,具体使用方法参考:
-dist/index.html
-
-样式也可自定义, 写法参考:
-dist/web-marker.css
+可根据需求添加想要的操作按钮,具体使用方法参考: dist/index.html
+样式也可自定义, 写法参考: dist/web-marker.css
 
 ### 演示地址
 [点我查看](http://180.76.54.31:83 "web-marker demo")
@@ -24,9 +22,10 @@ const webMarker = new WebMarker({
   selectedClassName: '_temp_marker', // 选中后样式名 (必填)
   markedClassName: '_web_marker',  // 标记样式名 (必填)
   focusMarkedClassName: '_focus_web_marker', // 选中已标记样式名 (必填)
-  btnWrapperID: 'webMarkerBtnBox', // 弹框节点 ID (必填)
-  btnMarkID: 'webMarker_btn_mark', // 标记(高亮) ID (必填)
-  btnDeleteID: 'webMarker_btn_delete' // 删除标记 ID (必填)
+  btnWrapperID: 'webMarkerBtn_Wrapper', // 弹框节点 ID (必填)
+  btnMarkID: 'webMarkerBtn_Mark', // 标记(高亮) ID (必填)
+  btnDeleteID: 'webMarkerBtn_Delete', // 删除标记 ID (必填)
+  disabledDom: ['BUTTON', 'H1', 'H2', 'IMG'] // 禁用此功能标签 (选填)
 })
 
 // 标记当前选中区域

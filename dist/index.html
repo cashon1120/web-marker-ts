@@ -1,91 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-  <title>demo</title>
-  <link rel="stylesheet" type="text/css" href="./web-marker.css" />
-  </head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+<title>demo</title>
+<link rel="stylesheet" type="text/css" href="./web-marker.css" />
+</head>
 
-  <body>
-    <div style="margin-top: 100px;">
-      今夕何夕兮，搴舟中流。<br>
-      今日何日兮，得与王子同舟。<br>
-      蒙羞被好兮，不訾诟耻。<br>
-      心几烦而不绝兮，得知王子。<br>
-      山有木兮木有枝，心悦君兮君不知。
-    </div>
+<body>
+  <h1>荷塘月色朱自清</h1>
+  <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮渐渐地升高了，墙外马路上孩子们的欢笑，已经听不见了；妻在屋里拍着闰儿，迷迷糊糊地哼着眠歌。我悄悄地披了大衫，带上门出去。
+  </p>
+  <p>
+    沿着荷塘，是一条曲折的小煤屑路。这是一条幽僻的路；白天也少人走，夜晚更加寂寞。荷塘四面，长着许多树，蓊蓊郁郁的。路的一旁，是些杨柳，和一些不知道名字的树。没有月光的晚上，这路上阴森森的，有些怕人。今晚却很好，虽然月光也还是淡淡的。
+  </p>
 
-    <!--按钮-->
-    <div id="webMarkerBtnBox" style="display: none;">
-      <div id="webMarker_btn_mark">标记</div>
-      <div id="webMarker_btn_baike">百科</div>
-      <div id="webMarker_btn_delete">移除</div>
-    </div>
-    <script src="./web_marker.js"></script>
+  <button id="clear_btn">清空标记</button>
+  <!--按钮-->
+  <div id="webMarkerBtn_Wrapper" style="display: none;">
+    <div id="webMarkerBtn_Mark">标记</div>
+    <div id="webMarkerBtn_Baike">百科</div>
+    <div id="webMarkerBtn_Delete">移除</div>
+  </div>
+  <script src="./web_marker.js"></script>
 
-    <script>
-      const getElementById = id => document.getElementById(id)
-      window.addEventListener('load', () => {
-        // 默认标记数据
-        let defaultMarkers = JSON.parse(localStorage.getItem('markers'))
-        // 创建实例, npm 安装使用的话 直接 new WebMarker({...})
-        const webMarker = new window.WebMarker({
-          defaultMarkers: defaultMarkers, // 默认标记数据 (选填), 数据格式为 getAllMarkes 返回结果
-          selectedClassName: '_temp_marker', // 选中后样式名 (必填)
-          markedClassName: '_web_marker',  // 标记样式名 (必填)
-          focusMarkedClassName: '_focus_web_marker', // 选中已标记样式名 (必填)
-          btnWrapperID: 'webMarkerBtnBox', // 弹框节点 ID (必填)
-          btnMarkID: 'webMarker_btn_mark', // 标记(高亮) ID (必填)
-          btnDeleteID: 'webMarker_btn_delete', // 删除标记 ID (必填)
-          disabledEle: ['BUTTON', 'H1', 'H2', 'IMG'] // 禁用此功能标签
-        })
+  <script>
+    const getElementById = id => document.getElementById(id)
+    window.addEventListener('load', () => {
 
-        // 返回文本内容, 可用于百科,复制等功能使用
-        const getText = () => {
-          let str = webMarker.getSelectedText()
-          if (!str) {
-            const id = webMarker.getCurrentId()
-            str = document.getElementById(id.toString()).innerHTML
-          }
-          return str
-        }
-
-        // 标记
-        const handleMark = () => {
-          webMarker.mark()
-          handleSaveAllMarker()
-        }
-
-        // 保存所有标记
-        const handleSaveAllMarker = () => {
-          console.log(webMarker.getAllMarkes())
-          const markersJson = JSON.stringify(webMarker.getAllMarkes())
-          // 可在这里上传结果
-          localStorage.setItem('markers', markersJson)
-        }
-
-        // 删除当前标记
-        const handleDelete = () => {
-          webMarker.del()
-          handleSaveAllMarker()
-        }
-
-        // 百科
-        const handleToBaike = () => {
-          window.location.href = `https://baike.baidu.com/item/${getText()}`
-        }
-
-        // 给各按钮绑定对应事件
-        const btn_mark = getElementById('webMarker_btn_mark')
-        const btn_delete = getElementById('webMarker_btn_delete')
-        const btn_baike = getElementById('webMarker_btn_baike')
-        btn_mark.addEventListener('mousedown', handleMark)
-        btn_delete.addEventListener('mousedown', handleDelete)
-        btn_baike.addEventListener('mousedown', handleToBaike)
+      const clear_btn = getElementById('clear_btn')
+      clear_btn.addEventListener('mousedown', () => {
+        localStorage.removeItem('markers')
+        window.location.href = ''
       })
-    </script>
+
+      // 默认标记数据
+      let defaultMarkers = JSON.parse(localStorage.getItem('markers'))
+      // 创建实例, npm 安装使用的话 直接 new WebMarker({...})
+      const webMarker = new window.WebMarker({
+        defaultMarkers: defaultMarkers, // 默认标记数据 (选填), 数据格式为 getAllMarkes 返回结果
+        selectedClassName: '_temp_marker', // 选中后样式名 (必填)
+        markedClassName: '_web_marker', // 标记样式名 (必填)
+        focusMarkedClassName: '_focus_web_marker', // 选中已标记样式名 (必填)
+        btnWrapperID: 'webMarkerBtn_Wrapper', // 弹框节点 ID (必填)
+        btnMarkID: 'webMarkerBtn_Mark', // 标记(高亮) ID (必填)
+        btnDeleteID: 'webMarkerBtn_Delete', // 删除标记 ID (必填)
+        disabledDom: ['BUTTON', 'H1', 'H2', 'IMG'] // 禁用此功能标签 (选填)
+      })
+
+      // 返回文本内容, 可用于百科,复制等功能使用
+      const getText = () => {
+        let str = webMarker.getSelectedText()
+        if (!str) {
+          const id = webMarker.getCurrentId()
+          str = document.getElementById(id.toString()).innerHTML
+        }
+        return str
+      }
+
+      // 标记
+      const handleMark = () => {
+        webMarker.mark()
+        handleSaveAllMarker()
+      }
+
+      // 保存所有标记
+      const handleSaveAllMarker = () => {
+        console.log(webMarker.getAllMarkes())
+        const markersJson = JSON.stringify(webMarker.getAllMarkes())
+        // 可在这里上传结果
+        localStorage.setItem('markers', markersJson)
+      }
+
+      // 删除当前标记
+      const handleDelete = () => {
+        webMarker.del()
+        handleSaveAllMarker()
+      }
+
+      // 百科
+      const handleToBaike = () => {
+        window.location.href = `https://baike.baidu.com/item/${getText()}`
+      }
+
+      // 给各按钮绑定对应事件
+      const btn_mark = getElementById('webMarkerBtn_Mark')
+      const btn_delete = getElementById('webMarkerBtn_Delete')
+      const btn_baike = getElementById('webMarkerBtn_Baike')
+      btn_mark.addEventListener('mousedown', handleMark)
+      btn_delete.addEventListener('mousedown', handleDelete)
+      btn_baike.addEventListener('mousedown', handleToBaike)
+    })
+  </script>
 
 
-  </body>
+</body>
 
 </html>

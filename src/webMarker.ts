@@ -44,8 +44,7 @@ class Marker implements IMarker {
  * @param options.focusMarkedClassName: 选中已经标记 className
  * @param options.selectedClassName: 选中后 className
  * @param options.btnWrapperID: 弹框 ID
- * @param options.btnArrowID: 弹框下方的箭头 ID
- * @param options.btnMarkID: 标记按钮 ID, 主要用于隐藏和显示, 删除按钮一样, 其实应该提到外面去处理
+ * @param options.btnMarkID: 标记按钮 ID, 主要用于隐藏和显示, 删除按钮一样
  * @param options.btnDeleteID: 删除按钮 ID
  */
 
@@ -119,9 +118,9 @@ class WebMarker implements IWebMarker {
   }
 
   private init() {
-    const {defaultMarkers, disabledEle} = this.options
-    if(disabledEle && Array.isArray(disabledEle)){
-      disabledElement.concat(disabledEle)
+    const {defaultMarkers, disabledDom} = this.options
+    if(disabledDom && Array.isArray(disabledDom)){
+      disabledElement.concat(disabledDom)
     }
 
     // 获取浏览器环境
@@ -165,13 +164,14 @@ class WebMarker implements IWebMarker {
       const {commonAncestorContainer} = this
         .selectedText
         .getRangeAt(0)
-
       if (this.checkNoSelectionText() && !this.isMarked || !this.checkSelectionCount() || disabledElement.includes(commonAncestorContainer.parentNode.nodeName)) {
         this.hide()
         return
       }
 
       // 这里模拟走 PC 端的 mouseup 事件
+   
+
       if (this.selectedText.toString().length > 0) {
         this.handleMouseUp()
       }
@@ -238,7 +238,6 @@ class WebMarker implements IWebMarker {
         return
       }
     }
-
     const {commonAncestorContainer} = this
       .selectedText
       .getRangeAt(0)
@@ -288,12 +287,9 @@ class WebMarker implements IWebMarker {
     if (!this.btnWrapper) {
       this.btnWrapper = document.getElementById(this.options.btnWrapperID)
     }
-    if (!this.arrow) {
-      this.arrow = document.getElementById(this.options.btnArrowID)
-    }
     setDomDisplay(this.btnWrapper, 'flex')
     let tempDomAttr = null
-    let left = 0
+    let left: number | string = 0
     let top = 0
     let tempDom = null
     if (this.tempMarkDom) {
@@ -311,7 +307,11 @@ class WebMarker implements IWebMarker {
       }
       top = tempDomAttr.top
     }
-    left = Math.min(window.innerWidth - 30, Math.max(0, left))
+    if(window.innerWidth <= 768){
+      left = '1%'
+    }else{
+      left = Math.min(window.innerWidth - 30, Math.max(0, left))
+    }
     if (this.userAgent.isPC) {
       this.btnWrapper.style.top = top + window.scrollY - 50 + 'px'
       this.btnWrapper.style.left = left + 'px'
@@ -323,7 +323,7 @@ class WebMarker implements IWebMarker {
         ? left
         : this.touch.pageX
       this.btnWrapper.style.top = top + 'px'
-      this.arrow.style.left = left + 'px'
+      this.btnWrapper.style.left = '1%'
     }
   }
 
@@ -419,6 +419,7 @@ class WebMarker implements IWebMarker {
       const tempMarkDom = document.getElementsByClassName(this.TEMP_MARKED_CLASSNAME)[0]
       tempMarkDom.className = this.MARKED_CLASSNAME
     } else {
+
       const text = this
         .selectedText
         .toString()

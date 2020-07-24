@@ -11,22 +11,28 @@
   background-color: darkblue;
 }
 
-#webMarkerBtnBox{
+
+#webMarkerBtn_Wrapper{
   position: absolute;
-  display: none;
-  width: auto;
-  left: 0;
+  /* display: none; */
+  width: 98%;
+  left: 1%;
   box-sizing: border-box;
   text-align: center;
-  border-radius: 3px;
   display: flex;
   align-items: center;
   background-color: #000;
   transition: all .3s;
-  transform: translateX(-50%);
 }
 
-#webMarkerBtnBox>div{
+@media (min-width:768px) {
+  #webMarkerBtn_Wrapper{
+    width: auto;
+    transform: translateX(-50%);
+  }
+}
+
+#webMarkerBtn_Wrapper>div{
   text-align: center;
   flex: 1;
   color: #fff;
@@ -35,11 +41,11 @@
   padding: 0 15px;
   border-right: 1px solid #515151;
 }
-#webMarkerBtnBox>div:last-child{
+#webMarkerBtn_Wrapper>div:last-child{
   border: 0;
 }
 
-#webMarkerBtnBox::after{
+#webMarkerBtn_Wrapper::after{
   content: '';
   display: block;
   position: absolute;

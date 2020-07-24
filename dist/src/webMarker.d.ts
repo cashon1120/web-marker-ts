@@ -22,8 +22,7 @@ declare class Marker implements IMarker {
  * @param options.focusMarkedClassName: 选中已经标记 className
  * @param options.selectedClassName: 选中后 className
  * @param options.btnWrapperID: 弹框 ID
- * @param options.btnArrowID: 弹框下方的箭头 ID
- * @param options.btnMarkID: 标记按钮 ID, 主要用于隐藏和显示, 删除按钮一样, 其实应该提到外面去处理
+ * @param options.btnMarkID: 标记按钮 ID, 主要用于隐藏和显示, 删除按钮一样
  * @param options.btnDeleteID: 删除按钮 ID
  */
 declare class WebMarker implements IWebMarker {

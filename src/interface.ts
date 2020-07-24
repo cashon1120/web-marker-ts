@@ -20,7 +20,7 @@ export interface WebMarkerOptions {
   btnDeleteID?: string;
   btnWrapperID?: string;
   btnArrowID?: string;
-  disabledEle? : string[]
+  disabledDom? : string[]
 }
 
 export interface SelectedMarkers {
