@@ -142,8 +142,8 @@ class WebMarker implements IWebMarker {
     document.addEventListener('selectionchange', this.handleSelectionChange.bind(this))
     document.addEventListener(this.userAgent.eventName.mousedown, this.handleMouseDown.bind(this))
 
-    // 移动端在选择文本的时候无法监听移动事件, 所以分开处理, 移动端直接在 selectionchange 事件中控制流程 PC
-    // 端的优势在于选中文本后先添加一个临时节点, 方便定位, 鼠标抬起后再执行后续, 移动端暂不能做到
+    // 移动端直接在 selectionchange 事件中控制流程 
+    // PC端的优势在于选中文本后先添加一个临时节点, 方便定位, 鼠标抬起后再执行后续, 移动端暂不能做到
     if (this.userAgent.isPC) {
       document.addEventListener(this.userAgent.eventName.mouseup, this.handleMouseUp.bind(this))
     }
