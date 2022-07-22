@@ -1,4 +1,4 @@
-import { WebMarkerOptions, SelectedMarkers, UserAgaent, IMarker, IWebMarker } from './interface';
+import { WebMarkerOptions, SelectedMarkers, UserAgaent, IMarker, IWebMarker, Button } from "./interface";
 /**
  * @class Marker, 单个标记 信息
  * @param id: id, setuuid() 生成, 一个简单的按当前时间生成的字符串, 不需要太专业
@@ -22,19 +22,16 @@ declare class Marker implements IMarker {
  * @param options.focusMarkedClassName: 选中已经标记 className
  * @param options.selectedClassName: 选中后 className
  * @param options.btnWrapperID: 弹框 ID
- * @param options.btnMarkID: 标记按钮 ID, 主要用于隐藏和显示, 删除按钮一样
- * @param options.btnDeleteID: 删除按钮 ID
  */
 declare class WebMarker implements IWebMarker {
     MARKED_CLASSNAME: string;
     TEMP_MARKED_CLASSNAME: string;
     FOUCE_MARKED_CLASSNAME: string;
+    btns: Button;
     options: WebMarkerOptions;
     userAgent: UserAgaent;
     arrow: HTMLElement;
     btnWrapper: HTMLElement | null;
-    btnMark: HTMLElement | null;
-    btnDelete: HTMLElement | null;
     selectedMarkers: SelectedMarkers;
     tempMarkerInfo: Marker;
     tempMarkDom: HTMLElement | null;
@@ -49,7 +46,7 @@ declare class WebMarker implements IWebMarker {
     private handleSelectionChange;
     private handleMouseDown;
     private handleMouseUp;
-    private hide;
+    hide(): void;
     private show;
     private resetMarker;
     private setDefaultMarkers;

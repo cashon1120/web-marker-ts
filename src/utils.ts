@@ -1,4 +1,4 @@
-import {Styles, UserAgaent, EventName} from './interface'
+import {Styles, UserAgaent, EventName, Button, IWebMarker} from './interface'
 
 export const setDomDisplay = (dom: HTMLElement, value: string) => {
   if(!dom) return
@@ -97,3 +97,22 @@ export const loadStyles = (url: string) => {
 }
 
 export const getElementById = (id: string) => document.getElementById(id)
+
+export const createBtnDom = (btns: Button[], wrapperClassName: string, context: IWebMarker) => {
+  const wrapper = document.createElement('div')
+  wrapper.className = `web-marker-wrapper`
+  wrapper.id = wrapperClassName
+  document.body.appendChild(wrapper)
+  for(let i = 0; i < btns.length; i++){
+    const btn = document.createElement('div')
+    const {label, event} = btns[i]
+    btn.className = 'web-marker-btn'
+    btn.innerHTML = label
+    wrapper.appendChild(btn)
+    btn.addEventListener('click', () => {
+      event && event()
+      context.hide()
+    })
+  }
+  return wrapper
+}

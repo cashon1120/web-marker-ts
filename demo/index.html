@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0">
+<title>web-marker demo</title>
+<link rel="stylesheet" type="text/css" href="./web-marker.css" />
+<style>
+  body{
+    background-color: #f2f2f2;
+    color: #666;
+  }
+  h1{
+    padding: 0;
+    margin: 0;
+    color: #333;
+  }
+  .main{
+    background-color: #fff;
+    border: 1px solid #eee;
+    margin: auto;
+    padding: 30px;
+    width: 80%;
+    margin-top: 100px;
+    border-radius: 5px;
+  }
+</style>
+</head>
+
+<body>
+  <div class="main">
+    <h1>荷塘月色朱自清</h1>
+    <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮渐渐地升高了，墙外马路上孩子们的欢笑，已经听不见了；妻在屋里拍着闰儿，迷迷糊糊地哼着眠歌。我悄悄地披了大衫，带上门出去。
+    </p>
+    <p>
+      沿着荷塘，是一条曲折的小煤屑路。这是一条幽僻的路；白天也少人走，夜晚更加寂寞。荷塘四面，长着许多树，蓊蓊郁郁的。路的一旁，是些杨柳，和一些不知道名字的树。没有月光的晚上，这路上阴森森的，有些怕人。今晚却很好，虽然月光也还是淡淡的。
+    </p>
+  </div>
+  <script src="./web_marker.js"></script>
+  <script>
+    // 默认标记数据
+    let defaultMarkers = JSON.parse(localStorage.getItem('markers'))
+    // 创建实例, npm 安装使用的话 直接 new WebMarker({...})
+    const webMarker = new WebMarker({
+      defaultMarkers: defaultMarkers, // 默认标记数据 (选填), 数据格式为 getAllMarkes 返回结果
+      selectedClassName: '_temp_marker', // 选中后样式名 (必填)
+      markedClassName: '_web_marker', // 标记样式名 (必填)
+      focusMarkedClassName: '_focus_web_marker', // 选中已标记样式名 (必填)
+      btnWrapperID: 'webMarkerBtn_Wrapper', // 弹框节点 ID (必填)
+      disabledDom: ['BUTTON', 'H1', 'H2', 'IMG'], // 禁用此功能标签 (选填)
+      btns: [{
+        label: '标记',
+        event: () => {
+          webMarker.mark()
+          // 如果需要保存在本地的话可自行处理， 如：
+          const markersJson = JSON.stringify(webMarker.getAllMarkes())
+          localStorage.setItem('markers', markersJson)
+        }
+      },{
+        label: '百科', 
+        event: () => {
+          // 获取当前选中的文本内容
+          const text = webMarker.getSelectedText()
+          window.location.href = `https://baike.baidu.com/search/none?word=${text}`
+        }
+      },{
+        label: '全部标记信息', 
+        event: () => {
+          const allText = webMarker.getAllMarkes()
+          console.log(allText)
+        }
+      }, {
+        label: '当前标记ID', 
+        event: () => {
+          const id = webMarker.getCurrentId()
+          console.log(id)
+        }
+      },{
+        label: '删除', 
+        event: () => {
+          webMarker.del()
+        }
+      }]
+    })
+  </script>
+
+
+</body>
+
+</html>

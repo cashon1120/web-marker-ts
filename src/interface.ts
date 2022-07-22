@@ -11,11 +11,16 @@ export interface Styles {
   [key: string]: any;
 }
 
+export interface Button {
+  label: string
+  event: Function
+}
 export interface WebMarkerOptions {
   defaultMarkers: SelectedMarkers;
   markedClassName: string;
   selectedClassName: string;
   focusMarkedClassName: string;
+  btns: Button[],
   btnMarkID?: string;
   btnDeleteID?: string;
   btnWrapperID?: string;
@@ -46,5 +51,6 @@ export interface IWebMarker {
   mark: () => void
   getAllMarkes: () => SelectedMarkers
   del: () => void
+  hide: () => void
   userAgent: UserAgaent
 }

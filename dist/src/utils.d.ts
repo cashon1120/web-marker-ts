@@ -1,4 +1,4 @@
-import { Styles, UserAgaent } from './interface';
+import { Styles, UserAgaent, Button, IWebMarker } from './interface';
 export declare const setDomDisplay: (dom: HTMLElement, value: string) => void;
 export declare const setuuid: () => string;
 export declare const setTextSelected: (className: string, text: string, id: string) => HTMLSpanElement;
@@ -8,3 +8,4 @@ export declare const mergeTextNode: (dom: HTMLElement) => void;
 export declare const setDomStyles: (dom: HTMLElement, styles: Styles) => void;
 export declare const loadStyles: (url: string) => void;
 export declare const getElementById: (id: string) => HTMLElement;
+export declare const createBtnDom: (btns: Button[], wrapperClassName: string, context: IWebMarker) => HTMLDivElement;

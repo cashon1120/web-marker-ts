@@ -1,6 +1,6 @@
 {
   "name": "web-marker",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "a tool for add marker or highlight in webpage",
   "main": "dist/web_marker.js",
   "scripts": {
