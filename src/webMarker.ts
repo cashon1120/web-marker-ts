@@ -325,10 +325,10 @@ class WebMarker implements IWebMarker {
       left = Math.min(window.innerWidth - 30, Math.max(0, left));
     }
     if (this.userAgent.isPC) {
-      this.btnWrapper.style.top = top + window.scrollY - 50 + "px";
+      this.btnWrapper.style.top = top + window.scrollY - 40 + "px";
       this.btnWrapper.style.left = left + "px";
     } else {
-      top = tempDom ? top + window.scrollY - 50 : this.touch.pageY - 80;
+      top = tempDom ? top + window.scrollY - 40 : this.touch.pageY - 70;
       left = tempDom ? left : this.touch.pageX;
       this.btnWrapper.style.top = top + "px";
       this.btnWrapper.style.left = "1%";

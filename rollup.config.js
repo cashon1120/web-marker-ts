@@ -2,7 +2,6 @@ import { terser} from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2';
 
 const isPrd = process.env.NODE_ENV === 'production';
-
 export default {
   input: 'src/webMarker.ts',
   output: {

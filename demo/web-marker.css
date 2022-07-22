@@ -20,6 +20,8 @@
   display: none;
   transition: all .3s;
   cursor: pointer;
+  font-size: 12px;
+  border-radius: 3px;
 }
 
 @media (min-width:768px) {
@@ -32,9 +34,7 @@
 .web-marker-wrapper>div{
   text-align: center;
   color: #fff;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 15px;
+  padding: 5px 15px;
   border-right: 1px solid #515151;
   white-space: nowrap;
 }
