@@ -376,18 +376,23 @@ class WebMarker implements IWebMarker {
     Object.keys(defaultMarkers).forEach((className) => {
       const dom = document.getElementsByClassName(className)[0];
       if (!dom) return;
-      defaultMarkers[className].forEach((marker: Marker) => {
-        const currentNode: Text = dom.childNodes[marker.childIndex] as Text;
-        currentNode.splitText(marker.start);
-        const nextNode = currentNode.nextSibling as Text;
-        nextNode.splitText(marker.end - marker.start);
-        const markedNode = setTextSelected(
-          this.MARKED_CLASSNAME,
-          nextNode.textContent,
-          marker.id
-        );
-        dom.replaceChild(markedNode, nextNode);
-      });
+      try {
+        defaultMarkers[className].forEach((marker: Marker) => {
+          const currentNode: Text = dom.childNodes[marker.childIndex] as Text;
+          currentNode.splitText(marker.start);
+          const nextNode = currentNode.nextSibling as Text;
+          nextNode.splitText(marker.end - marker.start);
+          const markedNode = setTextSelected(
+            this.MARKED_CLASSNAME,
+            nextNode.textContent,
+            marker.id
+          );
+          dom.replaceChild(markedNode, nextNode);
+        });
+      } catch (error) {
+        throw Error('the text content is changed, please check!')
+      }
+      
     });
   }
 

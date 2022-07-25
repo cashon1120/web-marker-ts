@@ -13,6 +13,15 @@
     padding: 0;
     margin: 0;
     color: #333;
+    text-align: center;
+  }
+  ul{
+    padding: 20px;
+    margin: 0;
+    line-height: 25px;
+  }
+  li{
+    margin-bottom: 10px;
   }
   .main{
     background-color: #fff;
@@ -23,17 +32,26 @@
     margin-top: 100px;
     border-radius: 5px;
   }
+  a{
+    color: #3fb3fc;
+  }
 </style>
 </head>
 
 <body>
   <div class="main">
-    <h1>荷塘月色朱自清</h1>
-    <p>这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的光里，总该另有一番样子吧。月亮渐渐地升高了，墙外马路上孩子们的欢笑，已经听不见了；妻在屋里拍着闰儿，迷迷糊糊地哼着眠歌。我悄悄地披了大衫，带上门出去。
-    </p>
-    <p>
-      沿着荷塘，是一条曲折的小煤屑路。这是一条幽僻的路；白天也少人走，夜晚更加寂寞。荷塘四面，长着许多树，蓊蓊郁郁的。路的一旁，是些杨柳，和一些不知道名字的树。没有月光的晚上，这路上阴森森的，有些怕人。今晚却很好，虽然月光也还是淡淡的。
-    </p>
+    <h1>web-marker 演示</h1>
+    <ul>
+      <li> 获取选中文本信息; </li>
+      <li> 主要用于在静态网页上做标记(高亮), 当然前提是网页上的内容不会发生变化, 一旦发生变化之前做的标记将会错乱;</li>
+      <li> 当然也可作为简单的文本选中工具;</li>
+      <li> 暂不支持跨多节点标记内容;</li>
+      <li> 支持移动端, 但因在移动端选中文字后系统会有默认的弹框操作, 所以得让小伙伴在webView里把这个系统功能禁用掉;</li>
+      <li> 可根据需求添加想要的操作按钮,具体使用方法参考: demo/index.html; </li>
+      <li> 样式可自定义, 写法参考: demo/web-marker.css;</li>
+      <li> 标记内容可存在本地或者服务器，格式为getAllMarkes()返回内容, demo是储存在localStorage的;</li>
+    </ul>
+    github地址: <a target="_blank" href="https://github.com/cashon1120/web-marker-ts">https://github.com/cashon1120/web-marker-ts</a>
   </div>
   <script src="./web_marker.js"></script>
   <script>
@@ -52,8 +70,8 @@
         event: () => {
           webMarker.mark()
           // 如果需要保存在本地的话可自行处理， 如：
-          const markersJson = JSON.stringify(webMarker.getAllMarkes())
-          localStorage.setItem('markers', markersJson)
+          // const markersJson = JSON.stringify(webMarker.getAllMarkes())
+          // localStorage.setItem('markers', markersJson)
         }
       },{
         label: '百科', 
@@ -77,6 +95,7 @@
       },{
         label: '删除', 
         event: () => {
+          // 注:  这里只是删除标记， 没有删除本地存储内容，对应mark存储方法
           webMarker.del()
         }
       }]

@@ -12,9 +12,9 @@
 
 ### 效果演示
 
-<img src="http://120.48.9.247/code.png" width="400" title="demo" alt="demo" />
+<img src="https:webmarker.hi515.cn/demo.png" width="400" title="demo" alt="demo" />
 
-demo地址: [点我查看](http://120.48.9.247/ "web-marker demo")
+[DEMO](https:webmarker.hi515.cn "web-marker demo")
 
 ### 安装
 npm i web-marker
