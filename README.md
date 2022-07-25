@@ -12,15 +12,18 @@
 
 ### 效果演示
 
-<img src="https:webmarker.hi515.cn/demo.png" width="400" title="demo" alt="demo" />
 
-[DEMO](https:webmarker.hi515.cn "web-marker demo")
+![alt demo](https://webmarker.hi515.cn/demo.png)
+
+[查看DEMO](https://webmarker.hi515.cn)
 
 ### 安装
 npm i web-marker
 
 ### 使用
 ```javascript
+import WebMarker from 'web-marker'
+
 let defaultMarkers = JSON.parse(localStorage.getItem('markers'))
 // 创建实例, npm 安装使用的话 直接 new WebMarker({...})
 const webMarker = new WebMarker({
@@ -35,8 +38,8 @@ const webMarker = new WebMarker({
     event: () => {
       webMarker.mark()
       // 如果需要保存在本地的话可自行处理， 如：
-      const markersJson = JSON.stringify(webMarker.getAllMarkes())
-      localStorage.setItem('markers', markersJson)
+      // const markersJson = JSON.stringify(webMarker.getAllMarkes())
+      // localStorage.setItem('markers', markersJson)
     }
   },{
     label: '百科', 
