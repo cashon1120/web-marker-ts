@@ -13,9 +13,9 @@
 ### 效果演示
 
 
-![alt demo](https://webmarker.hi515.cn/demo.png)
+![alt demo](http://webmarker.hi515.cn/demo.png)
 
-[查看DEMO](https://webmarker.hi515.cn)
+[查看DEMO](http://webmarker.hi515.cn)
 
 ### 安装
 npm i web-marker
